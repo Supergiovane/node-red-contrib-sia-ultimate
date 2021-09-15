@@ -15,12 +15,14 @@ module.exports = (RED) => {
         var node = this
         node.port = config.port || 4628;
         node.nodeClients = []; // Stores the registered clients
-        node.isConnected = true; // Assumes, that is already connected.
         node.errorDescription = ""; // Contains the error description in case of connection error.
         node.aes = config.aes === "yes" ? true : false;
         node.hex = config.hex === "yes" ? true : false;
         node.acktimeout = config.acktimeout || 0;
         node.SIACodes = []; // Array of objects { code: "TR", description: "trouble"}
+        node.heartbeatTimeout = config.heartbeatTimeout || 120; // If a messages doesn't arrive withing this time, emits error on PIN 2
+        node.timerHeartBeat = null;
+
         RED.log.info("siaendpointConfig: siaendpointConfig: Account: " + node.credentials.accountnumber + ", AES:" + node.aes + ", HEX:" + node.hex);
 
         if (node.aes === true) {
@@ -48,12 +50,12 @@ module.exports = (RED) => {
             let aRows = fs.readFileSync(__dirname + "/lib/siacodes.csv", "utf8").split("\n");
             for (let index = 0; index < aRows.length; index++) {
                 const element = aRows[index];
-                node.SIACodes.push({ code: element.split(",")[0], description: element.split(",")[0] });
+                node.SIACodes.push({ code: element.split(",")[0], description: element.split(",")[1] });
             }
             RED.log.info("siaendpointConfig: siaendpointConfig: Total SIA codes in csv file: " + node.SIACodes.length);
         } catch (err) {
             node.SIACodes = [];
-            setTimeout(() => node.setAllClientsStatus("Warning", "yellow", "Unable to read SIA codes from file " + err.message), 1000);
+            node.setAllClientsStatus({ fill: "yellow", shape: "ring", text: "Unable to read SIA codes from file " + err.message });
             RED.log.info("siaendpointConfig: siaendpointConfig: Error reading SIA codes from csv file: " + err.message);
         }
 
@@ -602,6 +604,7 @@ module.exports = (RED) => {
                             oClient.sendPayload({ connection: "TCP", decoded: sia });
                         })
                         node.errorDescription = ""; // Reset the error
+                        startHeartBeat();
                     } else {
                         let crcformat = getcrcFormat(data);
                         ack = nackSIA(crcformat);
@@ -651,6 +654,7 @@ module.exports = (RED) => {
                             oClient.sendPayload({ connection: "UDP", decoded: sia });
                         })
                         node.errorDescription = ""; // Reset the error
+                        startHeartBeat();
 
                     } else {
                         let crcformat = getcrcFormat(data);
@@ -740,7 +744,19 @@ module.exports = (RED) => {
         // start socket server
         serverStartTCP();
         serverStartUDP();
+        startHeartBeat();
 
+        // Start the heartbeat timer
+        function startHeartBeat() {
+            if (node.timerHeartBeat !== null) clearTimeout(node.timerHeartBeat);
+            node.timerHeartBeat = setTimeout(() => {
+                node.errorDescription = "Timeout waiting for a message withing " + node.heartbeatTimeout + " seconds.";
+                node.nodeClients.forEach(oClient => {
+                    oClient.sendPayload({ errorDescription: node.errorDescription });
+                })
+                node.setAllClientsStatus({ fill: "red", shape: "dot", text: "Timeout waiting for a message withing " + node.heartbeatTimeout + " seconds."});
+            }, node.heartbeatTimeout * 1000);
+        }
 
         //#region "FUNCTIONS"
         node.on('close', function (removed, done) {

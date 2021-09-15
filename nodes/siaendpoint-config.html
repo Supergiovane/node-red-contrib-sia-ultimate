@@ -7,7 +7,8 @@
             name: { value: "Server" },
             acktimeout: { value: 0 },
             hex: { value: "no" },
-            aes: { value: "no" }
+            aes: { value: "no" },
+            heartbeatTimeout:{ value: 120, required: true, validate: RED.validators.number()}
         },
         credentials: {
             accountnumber: { type: "text" },
@@ -73,4 +74,9 @@
       
     </div>
    
+    <div class="form-row">
+        <label for="node-config-input-heartbeatTimeout"><i class="fa fa-tasks"></i> Emit error if no messages arrive within seconds</label>
+        <input type="text" id="node-config-input-heartbeatTimeout" placeholder="120">
+	</div>
+
 </script>

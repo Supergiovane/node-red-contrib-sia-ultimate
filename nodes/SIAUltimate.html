@@ -6,11 +6,7 @@
 			name: { value: "" },
 			topic: { value: "" },
 			server: { type: "siaendpoint-config", required: true },
-			ringStatus: { value: "all" },
-			floorNo : {value: "all"},
-			unitNo: {value: "all"},
-			zoneNo: {value: "all"},
-			buildingNo: {value: "all"}
+			discardAutomaticTest: { value: "yes" }
 		},
 		inputs: 0,
 		outputs: 2,
@@ -30,14 +26,14 @@
 		icon: "font-awesome/fa-bell",
 		label:
 			function () {
-				var label = "SIA-DCS"
+				var label = "SIA-DCS (BETA)"
 				if (this.name !== undefined && this.name.length > 0) {
 					label = this.name;
 				}
 				return label;// + " " + this.status;
 			},
 		paletteLabel: function () {
-			return "SIA-DCS";
+			return "SIA-DCS (BETA)";
 		},
 		oneditprepare: function () {
 			var node = this;
@@ -70,7 +66,18 @@
         <label for="node-input-topic"><i class="fa fa-tasks"></i> Node topic</label>
         <input type="text" id="node-input-topic" placeholder="Node's own topic">
 	</div>
+	
+	
 
+	<br/><b>FILTERS</b><br/><br/>
+        
+	<div class="form-row">
+        <label for="node-input-discardAutomaticTest"><i class="fa fa-tasks"></i> Discard test messages</label>
+		<select id="node-input-discardAutomaticTest">
+			<option value="yes">Yes, discard automatic test messages sent by the device</option>
+			<option value="no">No</option>
+		</select>
+	</div>
 	
   
 </script>

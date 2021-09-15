@@ -7,12 +7,7 @@ module.exports = function (RED) {
 		var node = this;
 		node.topic = config.topic || config.name;
 		node.server = RED.nodes.getNode(config.server)
-		node.ringStatus = (config.ringStatus === null || config.ringStatus === undefined) ? "all" : config.ringStatus.toLowerCase();
-		node.floorNo = (config.floorNo === null || config.floorNo === undefined) ? "all" : config.floorNo;
-		node.unitNo = (config.unitNo === null || config.unitNo === undefined) ? "all" : config.unitNo;
-		node.zoneNo = (config.zoneNo === null || config.zoneNo === undefined) ? "all" : config.zoneNo;
-		node.buildingNo = (config.buildingNo === null || config.buildingNo === undefined) ? "all" : config.buildingNo;
-		node.currentEmittedMSG = {}; // To keep the current status and avoid emitting msg if already emitted.
+		node.discardAutomaticTest = config.discardAutomaticTest === "yes" ? true : false;
 
 		node.setNodeStatus = ({ fill, shape, text }) => {
 			var dDate = new Date();
@@ -32,19 +27,26 @@ module.exports = function (RED) {
 			//node.SIACodes = []; // Array of objects { code: "TR", description: "trouble"}
 			try {
 				// Delete the data buffer
-				delete (_msg.data);
+				delete (_msg.decoded.data);
 			} catch (error) {
 			}
 			let sCode = "";
 			let sDescription = "";
 			try {
 				if (_msg.decoded.data_message.toString().includes("|")) {
-					sCode = sCode.split("|")[0];
-					sCode = sCode.split("/")[1];
-					sDescription = node.server.SIACodes.find(a => a.code === sCode.substring(0, 2)).description;
+					sCode = _msg.decoded.data_message.toString().split("|")[1];
+					sCode = sCode.split("\/")[1];
+					sCode = sCode.substring(0, 2);
+					sDescription = node.server.SIACodes.find(a => a.code === sCode).description;
 				}
 			} catch (error) {
 			}
+
+			if (node.discardAutomaticTest && sCode === "RP") {
+				node.setNodeStatus({ fill: "grey", shape: "ring", text: "Discarded " + sDescription });
+				return;
+			}
+
 			_msg.payload = { code: sCode, description: sDescription };
 			node.setNodeStatus({ fill: "green", shape: "dot", text: "Received " + _msg.decoded.data_message });
 			node.send([_msg, null]);
