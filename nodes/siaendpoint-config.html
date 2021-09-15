@@ -1,0 +1,76 @@
+<script type="text/javascript">
+
+    RED.nodes.registerType('siaendpoint-config', {
+        category: 'config',
+        defaults: {
+            port: { value: 4628, required: true, validate: RED.validators.number() },
+            name: { value: "Server" },
+            acktimeout: { value: 0 },
+            hex: { value: "no" },
+            aes: { value: "no" }
+        },
+        credentials: {
+            accountnumber: { type: "text" },
+            password: { type: "password" }
+        },
+        oneditprepare: function () {
+           
+
+        },
+        oneditsave: function () {
+
+        },
+        label: function () {
+            return this.name;
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="siaendpoint-config">
+    <div class="form-row">
+        <b>Server config</b>&nbsp&nbsp&nbsp&nbsp<span style="color:red"><i class="fa fa-question-circle"></i>&nbsp<a target="_blank" href="https://github.com/Supergiovane/node-red-contrib-hikvision-ultimate"><u>Help online</u></a></span>
+        <br/>
+        <br/>        
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-name" >
+            <i class="fa fa-tag"></i> Name
+        </label>
+        <input type="text" id="node-config-input-name" placeholder="Click Connect to automatically get the camera name">
+      
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-port"> Listen to Port</label>
+        <input type="text" id="node-config-input-port" placeholder="">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-accountnumber"> SIA Account</label>
+        <input type="text" id="node-config-input-accountnumber" placeholder="">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-password"> SIA Password</label>
+        <input type="password" id="node-config-input-password" placeholder="">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-aes"><i class="fa fa-tasks"></i> Crypted</label>
+		<select id="node-config-input-aes">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>		
+		</select>
+	</div>
+    <div class="form-row">
+        <label for="node-config-input-hex"><i class="fa fa-tasks"></i> Password in HEX format</label>
+		<select id="node-config-input-hex">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>		
+		</select>
+	</div>
+    <div class="form-row">
+        <label for="node-config-input-acktimeout" >
+            <i class="fa fa-tag"></i> SIA message must be no older than (in secs)
+        </label>
+        <input type="text" id="node-config-input-acktimeout" placeholder="0 for no control">
+      
+    </div>
+   
+</script>
