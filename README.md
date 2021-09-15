@@ -1,6 +1,8 @@
 # node-red-contrib-sia-ultimate
 Connect your SIA-DCS compatible alarm system to node-red. It works with Ajax System too.
 
+**WARNING: the node is still in BETA version, is not yet stable enough for real use**
+
 ## EXAMPLE OF CONFIGURING AJAX HUB ##
 
 <img src="https://raw.githubusercontent.com/Supergiovane/node-red-contrib-sia-ultimate/master/img/ajax.png" width="90%"><br/>
