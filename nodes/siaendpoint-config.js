@@ -22,6 +22,7 @@ module.exports = (RED) => {
         node.SIACodes = []; // Array of objects { code: "TR", description: "trouble"}
         node.heartbeatTimeout = config.heartbeatTimeout || 120; // If a messages doesn't arrive withing this time, emits error on PIN 2
         node.timerHeartBeat = null;
+        node.deviceList = config.deviceList || ""; // Contains the coupe ID,DeviceName (for example 4,PIR Badroom). One Device per row.
 
         RED.log.info("siaendpointConfig: siaendpointConfig: Account: " + node.credentials.accountnumber + ", AES:" + node.aes + ", HEX:" + node.hex);
 
@@ -754,7 +755,7 @@ module.exports = (RED) => {
                 node.nodeClients.forEach(oClient => {
                     oClient.sendPayload({ errorDescription: node.errorDescription });
                 })
-                node.setAllClientsStatus({ fill: "red", shape: "dot", text: "Timeout waiting for a message withing " + node.heartbeatTimeout + " seconds."});
+                node.setAllClientsStatus({ fill: "red", shape: "dot", text: "Timeout waiting for a message withing " + node.heartbeatTimeout + " seconds." });
             }, node.heartbeatTimeout * 1000);
         }
 

@@ -8,6 +8,20 @@ module.exports = function (RED) {
 		node.topic = config.topic || config.name;
 		node.server = RED.nodes.getNode(config.server)
 		node.discardAutomaticTest = config.discardAutomaticTest === "yes" ? true : false;
+		node.deviceList = []; // { id: "5", devicename: "PIR Soggiorno" }
+
+		// Contains the coupe ID,DeviceName (for example 4,PIR Badroom). One Device per row.
+		try {
+			if (node.server.deviceList.trim() !== "") {
+				let sRows = node.server.deviceList.split("\n");
+				for (let index = 0; index < sRows.length; index++) {
+					const element = sRows[index];
+					node.deviceList.push({ id: element.split(",")[0].toString(), devicename: element.split(",")[1].toString() });
+				}
+			}	
+		} catch (error) {			
+		}
+		
 
 		node.setNodeStatus = ({ fill, shape, text }) => {
 			var dDate = new Date();
@@ -33,13 +47,21 @@ module.exports = function (RED) {
 			let sCode = "";
 			let sDescription = "";
 			let sDeviceID = "";
+			let sDeviceName = "";
 			try {
 				if (_msg.decoded.data_message.toString().includes("|")) {
 					sCode = _msg.decoded.data_message.toString().split("|")[1];
-					sCode = sCode.split("\/")[1];
-					sDeviceID = sCode.substring(2);
-					sCode = sCode.substring(0, 2);
-					sDescription = node.server.SIACodes.find(a => a.code === sCode).description || "Unknown";
+					if (sCode.includes("\/")) {
+						sCode = sCode.split("\/")[1];
+						sDeviceID = sCode.substring(2);
+						sCode = sCode.substring(0, 2);
+						sDescription = node.server.SIACodes.find(a => a.code === sCode).description || "Unknown";
+						try {
+							sDeviceName = node.deviceList.find(a => a.id.toString() === sDeviceID).devicename;	
+						} catch (error) {							
+						}
+						
+					}
 				}
 			} catch (error) {
 			}
@@ -49,7 +71,7 @@ module.exports = function (RED) {
 				return;
 			}
 
-			_msg.payload = { deviceID: sDeviceID, code: sCode, description: sDescription };
+			_msg.payload = { deviceName: sDeviceName, deviceID: sDeviceID, code: sCode, description: sDescription };
 			node.setNodeStatus({ fill: "green", shape: "dot", text: "Received " + _msg.decoded.data_message });
 			node.send([_msg, null]);
 

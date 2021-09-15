@@ -8,6 +8,10 @@
 <br/>
 
 <p>
+<b>Version 0.0.4 BETA</b> - September 2021<br/>
+- You can now add a list of your device names, based on device ID.<br/>
+</p>
+<p>
 <b>Version 0.0.3 BETA</b><br/>
 - Added device ID that fired the message, into the payload object.<br/>
 </p>

@@ -8,14 +8,30 @@
             acktimeout: { value: 0 },
             hex: { value: "no" },
             aes: { value: "no" },
-            heartbeatTimeout:{ value: 120, required: true, validate: RED.validators.number()}
+            heartbeatTimeout: { value: 120, required: true, validate: RED.validators.number() },
+            deviceList: { value: "", required: false }
         },
         credentials: {
             accountnumber: { type: "text" },
             password: { type: "password" }
         },
         oneditprepare: function () {
-           
+            let node = this;
+            if (node.aes === "yes") {
+                // Show input
+                $("#divPassword").show();
+            } else {
+                $("#divPassword").hide()
+            }
+            $("#node-config-input-aes").on('change', function () {
+                if ($("#node-config-input-aes").val() === "yes") {
+                    // Show input
+                    $("#divPassword").show();
+                } else {
+                    // Hide input
+                    $("#divPassword").hide()
+                }
+            });
 
         },
         oneditsave: function () {
@@ -48,10 +64,7 @@
         <label for="node-config-input-accountnumber"> SIA Account</label>
         <input type="text" id="node-config-input-accountnumber" placeholder="">
     </div>
-    <div class="form-row">
-        <label for="node-config-input-password"> SIA Password</label>
-        <input type="password" id="node-config-input-password" placeholder="">
-    </div>
+   
     <div class="form-row">
         <label for="node-config-input-aes"><i class="fa fa-tasks"></i> Crypted</label>
 		<select id="node-config-input-aes">
@@ -59,13 +72,19 @@
 			<option value="no">No</option>		
 		</select>
 	</div>
-    <div class="form-row">
-        <label for="node-config-input-hex"><i class="fa fa-tasks"></i> Password in HEX format</label>
-		<select id="node-config-input-hex">
-			<option value="yes">Yes</option>
-			<option value="no">No</option>		
-		</select>
-	</div>
+    <div id="divPassword">
+        <div class="form-row">
+            <label for="node-config-input-password"> SIA Password</label>
+            <input type="password" id="node-config-input-password" placeholder="">
+        </div>
+        <div class="form-row">
+            <label for="node-config-input-hex"><i class="fa fa-tasks"></i> Password in HEX format</label>
+            <select id="node-config-input-hex">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>		
+            </select>
+        </div>
+    </div>
     <div class="form-row">
         <label for="node-config-input-acktimeout" >
             <i class="fa fa-tag"></i> SIA message must be no older than (in secs)
@@ -79,4 +98,17 @@
         <input type="text" id="node-config-input-heartbeatTimeout" placeholder="120">
 	</div>
 
+    <h3>EDITABLE DEVICE LIST (ID,DESCRIPTION)</h3>
+    <div class="form-row">
+        <label style="width:auto" for="node-config-input-deviceList">
+            <i class="fa fa-th-list"></i>
+            Device List
+        </label>
+    </div>
+    <div class="form-row">
+        <textarea rows="10" id="node-config-input-deviceList" style="width:100%"></textarea>
+    </div>
+    <div class="form-tips" style="margin-top: 11px;background-color:#FFEEEE;text-align:center">
+        <b><span>Optional. You can manually add your devices to the list, in the format ID,Description (for example 1,PIR Badroom). One device per row. The node will match the SIA deive ID with this list and will output the right device name.</span></b>
+    </div>
 </script>

@@ -1,7 +1,5 @@
 # node-red-contrib-sia-ultimate
 
-<img src="https://raw.githubusercontent.com/Supergiovane/node-red-contrib-sia-ultimate/master/img/main.png" width="80%"><br/>
-
 Connect your SIA-DCS compatible alarm system to node-red.
 
 <br/>
@@ -53,6 +51,24 @@ Everytime a SIA message arrives, the node decodes it and outputs it to the flow.
 
 <br/>
 
+<img src="https://raw.githubusercontent.com/Supergiovane/node-red-contrib-sia-ultimate/master/img/main.png" width="80%"><br/>
+
+In this example, the node retrieves all messages from the SIA client. You'll see that the device list (in the server configuration window), is also filled with some devicenames/id samples.
+
+**Copy this code and paste it into your flow**
+
+<details><summary>View code</summary>
+
+> Adjust the nodes according to your setup
+
+<code>
+[{"id":"90f04fe351adfd9b","type":"debug","z":"4e8eb9b80650f523","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"true","targetType":"full","statusVal":"","statusType":"auto","x":470,"y":120,"wires":[]},{"id":"2fc45b7cddeb3150","type":"SIAUltimate","z":"4e8eb9b80650f523","name":"","topic":"Banano","server":"bea9e0c70f4e12c6","discardAutomaticTest":"no","x":200,"y":140,"wires":[["90f04fe351adfd9b"],["30898bf6227f9439"]]},{"id":"30898bf6227f9439","type":"debug","z":"4e8eb9b80650f523","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"true","targetType":"full","statusVal":"","statusType":"auto","x":470,"y":160,"wires":[]},{"id":"169dd9a9fdde7c6c","type":"comment","z":"4e8eb9b80650f523","name":"SIA-DCS Messages receiver","info":"","x":240,"y":100,"wires":[]},{"id":"bea9e0c70f4e12c6","type":"siaendpoint-config","port":"4628","name":"Server","acktimeout":"12","hex":"no","aes":"no","heartbeatTimeout":"120","deviceList":"0000,Alarm Panel\n1,PIR Bedrom\n2,Microwave Front Door\n4,PIR Soggiorno","credentials":{}}]
+</code>
+</details>
+
+<br/>
+<br/>
+
 ## CONFIGURATION
 
 **SERVER CONFIGURATION**
@@ -65,6 +81,11 @@ Everytime a SIA message arrives, the node decodes it and outputs it to the flow.
 * **Password in HEX format**: optional, select "yes" if the password you choose in your SIA configuration of your alarm panel is in HEX format (Default "No")
 * **SIA message must be no older than (in secs)**: discard messages older than, for example, 20 seconds. This avoid processing old unwanted events (Default 0, that means that nothing will be discarded)
 * **Emit error if no messages arrive within seconds**: if a message is not received during this interval (in seconds), the node will emit an error on PIN 2. This is useful for monitoring the connection to your alarm panel (Default 120 seconds)
+* **Device List**: You can import your own list of device names and device ids. The node will emit the device name based on device ID in the SIA message. For example:
+    - 0000,Alarm Panel
+    - 1,PIR Bedrom
+    - 2,Microwave Front Door
+    - 4,PIR Soggiorno
 
 <br/>
 
@@ -107,6 +128,7 @@ msg = {
    },
    "topic":"Banano",
    "payload":{ // This contains the message decoded
+      "deviceName": "PIR Badroom", // The device name is taken from the list you filled in the server configuration node
       "deviceID": "4", // Device ID that fired the event
       "code":"RP",
       "description":"AUTOMATIC TEST"
