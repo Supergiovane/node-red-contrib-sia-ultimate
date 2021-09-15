@@ -32,12 +32,14 @@ module.exports = function (RED) {
 			}
 			let sCode = "";
 			let sDescription = "";
+			let sDeviceID = "";
 			try {
 				if (_msg.decoded.data_message.toString().includes("|")) {
 					sCode = _msg.decoded.data_message.toString().split("|")[1];
 					sCode = sCode.split("\/")[1];
+					sDeviceID = sCode.substring(2);
 					sCode = sCode.substring(0, 2);
-					sDescription = node.server.SIACodes.find(a => a.code === sCode).description;
+					sDescription = node.server.SIACodes.find(a => a.code === sCode).description || "Unknown";
 				}
 			} catch (error) {
 			}
@@ -47,7 +49,7 @@ module.exports = function (RED) {
 				return;
 			}
 
-			_msg.payload = { code: sCode, description: sDescription };
+			_msg.payload = { deviceID: sDeviceID, code: sCode, description: sDescription };
 			node.setNodeStatus({ fill: "green", shape: "dot", text: "Received " + _msg.decoded.data_message });
 			node.send([_msg, null]);
 

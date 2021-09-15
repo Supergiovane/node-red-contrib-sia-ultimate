@@ -107,6 +107,7 @@ msg = {
    },
    "topic":"Banano",
    "payload":{ // This contains the message decoded
+      "deviceID": "4", // Device ID that fired the event
       "code":"RP",
       "description":"AUTOMATIC TEST"
    },
