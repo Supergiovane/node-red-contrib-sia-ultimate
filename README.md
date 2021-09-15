@@ -7,7 +7,7 @@ This is a porting from iobroker.sia by schmupu. They did a very good job.
 
 ## EXAMPLE OF CONFIGURING AJAX HUB ##
 
-<img src="https://raw.githubusercontent.com/Supergiovane/node-red-contrib-sia-ultimate/master/img/wiki/ajax.png" width="90%"><br/>
+<img src="https://raw.githubusercontent.com/Supergiovane/node-red-contrib-sia-ultimate/master/img/ajax.png" width="90%"><br/>
 
 
 * In the settings of your hub, go to the monitoring stations page.
