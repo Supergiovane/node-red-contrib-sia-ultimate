@@ -1,11 +1,25 @@
 # node-red-contrib-sia-ultimate
-Connect your SIA-DCS compatible alarm system to node-red. It works with Ajax System too.
+Connect your SIA-DCS compatible alarm system to node-red.
+
+<br/>
+
+[![NPM version][npm-version-image]][npm-url]
+[![NPM downloads per month][npm-downloads-month-image]][npm-url]
+[![NPM downloads total][npm-downloads-total-image]][npm-url]
+[![MIT License][license-image]][license-url]
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Facebook][facebook-image]][facebook-url]
+[![Donate via PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg?style=flat-square)](https://www.paypal.me/techtoday) 
 
 **WARNING: the node is still in BETA version, is not yet stable enough for real use**
 
+## CHANGELOG
+
+* See <a href="https://github.com/Supergiovane/node-red-contrib-sia-ultimate/blob/master/CHANGELOG.md">here the changelog</a>
+
 ## EXAMPLE OF CONFIGURING AJAX HUB ##
 
-<img src="https://raw.githubusercontent.com/Supergiovane/node-red-contrib-sia-ultimate/master/img/ajax.png" width="90%"><br/>
+<img src="https://raw.githubusercontent.com/Supergiovane/node-red-contrib-sia-ultimate/master/img/ajax.png" width="50%"><br/>
 
 
 * In the settings of your hub, go to the monitoring stations page.
@@ -25,3 +39,13 @@ Connect your SIA-DCS compatible alarm system to node-red. It works with Ajax Sys
 <br/>
 <br/>
 This is a partial porting/revisiting from iobroker.sia by schmupu. They did a very good job.
+
+
+[license-image]: https://img.shields.io/badge/license-MIT-blue.svg
+[license-url]: https://github.com/Supergiovane/node-red-contrib-sia-ultimate/master/LICENSE
+[npm-url]: https://npmjs.org/package/node-red-contrib-sia-ultimate
+[npm-version-image]: https://img.shields.io/npm/v/node-red-contrib-sia-ultimate.svg
+[npm-downloads-month-image]: https://img.shields.io/npm/dm/node-red-contrib-sia-ultimate.svg
+[npm-downloads-total-image]: https://img.shields.io/npm/dt/node-red-contrib-sia-ultimate.svg
+[facebook-image]: https://img.shields.io/badge/Visit%20me-Facebook-blue
+[facebook-url]: https://www.facebook.com/supergiovaneDev
