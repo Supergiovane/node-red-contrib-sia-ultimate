@@ -1,8 +1,5 @@
 # node-red-contrib-sia-ultimate
 
-<img src="https://raw.githubusercontent.com/Supergiovane/node-red-contrib-sia-ultimate/master/img/main.png" width="80%"><br/>
-
-Connect your SIA-DCS compatible alarm system to node-red.
 
 <br/>
 
@@ -10,7 +7,10 @@ Connect your SIA-DCS compatible alarm system to node-red.
 
 <br/>
 
-
+<p>
+<b>Version 0.0.3 BETA</b><br/>
+- Added device ID that fired the message, into the payload object.<br/>
+</p>
 <p>
 <b>Version 0.0.2 BETA</b><br/>
 - Initial release<br/>
