@@ -14,7 +14,13 @@ Connect your SIA-DCS compatible alarm system to node-red.
 [![Facebook][facebook-image]][facebook-url]
 [![Donate via PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg?style=flat-square)](https://www.paypal.me/techtoday) 
 
-**WARNING: the node is still in BETA version, is not yet stable enough for real use**
+<br/>
+<br/>
+
+## WARNING: the node is still in BETA version, is not yet stable enough for real use 
+
+<br/>
+<br/>
 
 ## CHANGELOG
 

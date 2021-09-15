@@ -599,7 +599,7 @@ module.exports = (RED) => {
                         // set states only if ACK okay
                         setStatesSIA(sia);
                         node.nodeClients.forEach(oClient => {
-                            oClient.sendPayload({ connection: "TCP", payload: sia });
+                            oClient.sendPayload({ connection: "TCP", decoded: sia });
                         })
                         node.errorDescription = ""; // Reset the error
                     } else {
@@ -648,7 +648,7 @@ module.exports = (RED) => {
                         // set states only if ACK okay
                         setStatesSIA(sia);
                         node.nodeClients.forEach(oClient => {
-                            oClient.sendPayload({ connection: "UDP", payload: sia });
+                            oClient.sendPayload({ connection: "UDP", decoded: sia });
                         })
                         node.errorDescription = ""; // Reset the error
 

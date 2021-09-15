@@ -35,7 +35,18 @@ module.exports = function (RED) {
 				delete (_msg.data);
 			} catch (error) {
 			}
-			node.setNodeStatus({ fill: "green", shape: "dot", text: "Received " + _msg.payload.data_message });
+			let sCode = "";
+			let sDescription = "";
+			try {
+				if (_msg.decoded.data_message.toString().includes("|")) {
+					sCode = sCode.split("|")[0];
+					sCode = sCode.split("/")[1];
+					sDescription = node.server.SIACodes.find(a => a.code === sCode.substring(0, 2)).description;
+				}
+			} catch (error) {
+			}
+			_msg.payload = { code: sCode, description: sDescription };
+			node.setNodeStatus({ fill: "green", shape: "dot", text: "Received " + _msg.decoded.data_message });
 			node.send([_msg, null]);
 
 		}
