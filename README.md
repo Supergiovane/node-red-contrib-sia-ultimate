@@ -85,7 +85,7 @@ Pin 1 emits the current received SIA message
 
 ```javascript
 msg = {
-   "connection":"TCP",
+   "connection":"TCP", // (Or UDP, in case of UDP connections)
    "decoded":{
       "lf":10,
       "len":37,
@@ -106,7 +106,7 @@ msg = {
       "ts":""
    },
    "topic":"Banano",
-   "payload":{
+   "payload":{ // This contains the message decoded
       "code":"RP",
       "description":"AUTOMATIC TEST"
    },
