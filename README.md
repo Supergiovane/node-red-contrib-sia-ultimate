@@ -26,7 +26,10 @@ Connect your SIA-DCS compatible alarm system to node-red.
 
 * See <a href="https://github.com/Supergiovane/node-red-contrib-sia-ultimate/blob/master/CHANGELOG.md">here the changelog</a>
 
-## EXAMPLE OF CONFIGURING AJAX HUB ##
+<br/>
+<br/>
+
+**EXAMPLE OF CONFIGURING AJAX HUB**
 
 <img src="https://raw.githubusercontent.com/Supergiovane/node-red-contrib-sia-ultimate/master/img/ajax.png" width="50%"><br/>
 
@@ -41,6 +44,8 @@ Connect your SIA-DCS compatible alarm system to node-red.
 * Enable Periodic Reports. The interval with which the alarm systems reports to the monitoring station, default is 1 minute.
 * Encryption is preferred but optional. Password is 16, 24 or 32 ASCII characters.
 
+<br/>
+<br/>
 
 # SIA-DCS NODE
 The SIA-DCS node listens from incoming SIA messages from your alarm device.<br/>
@@ -70,6 +75,9 @@ Everytime a SIA message arrives, the node decodes it and outputs it to the flow.
 * Node Topic: this is the node topic. Choose what you want
 * FILTERS
     * Discard test messages: your alarm panel can send an automatic test message once a time, to check that the SIA-DCS node is connected. You can avoid the node sending a msg to the flow everytime this automatuc test message is received. The node will still emit an ERROR message on the PIN 2, if it doesn't receive any message during the period specified in *Emit error if no messages arrive within seconds* parameter.
+
+<br/>
+<br/>
 
 **Output PIN 1**
 
