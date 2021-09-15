@@ -1,4 +1,7 @@
 # node-red-contrib-sia-ultimate
+
+<img src="https://raw.githubusercontent.com/Supergiovane/node-red-contrib-sia-ultimate/master/img/main.png" width="80%"><br/>
+
 Connect your SIA-DCS compatible alarm system to node-red.
 
 <br/>

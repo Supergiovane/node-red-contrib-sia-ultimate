@@ -1,3 +1,4 @@
+const siaendpointConfig = require("./siaendpoint-config");
 
 
 module.exports = function (RED) {
@@ -26,12 +27,15 @@ module.exports = function (RED) {
 			if (_msg.hasOwnProperty("errorDescription")) { node.send([null, _msg]); return; }; // It's a connection error/restore comunication.
 
 			// Humanize sia message
+			// data_message: "#000|Nri0/RP0000"
+
 			//node.SIACodes = []; // Array of objects { code: "TR", description: "trouble"}
 			try {
 				// Delete the data buffer
 				delete (_msg.data);
 			} catch (error) {
 			}
+			node.setNodeStatus({ fill: "green", shape: "dot", text: "Received " + _msg.payload.data_message });
 			node.send([_msg, null]);
 
 		}

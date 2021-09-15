@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	RED.nodes.registerType('SIAUltimate', {
 		category: 'SIA Ultimate',
-		color: 'lightgreen',
+		color: '#75BEFF',
 		defaults: {
 			name: { value: "" },
 			topic: { value: "" },
@@ -12,7 +12,7 @@
 			zoneNo: {value: "all"},
 			buildingNo: {value: "all"}
 		},
-		inputs: 1,
+		inputs: 0,
 		outputs: 2,
 		outputLabels: function (i) {
 			var ret = "";
@@ -71,81 +71,7 @@
         <input type="text" id="node-input-topic" placeholder="Node's own topic">
 	</div>
 
-	<br/><b>FILTERS (the node will only react to these events)</b><br/><br/>
-        
-	<div class="form-row">
-        <label for="node-input-ringStatus"><i class="fa fa-tasks"></i> Status</label>
-		<select id="node-input-ringStatus">
-			<option value="all">Any</option>
-			<option value="ring">Ring only</option>
-			<option value="oncall">On Call only</option>
-		</select>
-	</div>
 	
-	<div class="form-row">
-        <label for="node-input-buildingNo"><i class="fa fa-tasks"></i> Building no.</label>
-		<select id="node-input-buildingNo">
-			<option value="all">Any building</option>
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7</option>
-			<option value="8">8</option>
-			<option value="8">9</option>
-			<option value="10">10</option>
-		</select>
-	</div>
-	<div class="form-row">
-        <label for="node-input-floorNo"><i class="fa fa-tasks"></i> Floor no.</label>
-		<select id="node-input-floorNo">
-			<option value="all">Any floor</option>
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7</option>
-			<option value="8">8</option>
-			<option value="8">9</option>
-			<option value="10">10</option>
-		</select>
-	</div>
-	<div class="form-row">
-        <label for="node-input-unitNo"><i class="fa fa-tasks"></i> Unit no.</label>
-		<select id="node-input-unitNo">
-			<option value="all">Any unit</option>
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7</option>
-			<option value="8">8</option>
-			<option value="8">9</option>
-			<option value="10">10</option>
-		</select>
-	</div>
-	<div class="form-row">
-        <label for="node-input-zoneNo"><i class="fa fa-tasks"></i> Zone no.</label>
-		<select id="node-input-zoneNo">
-			<option value="all">Any zone</option>
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7</option>
-			<option value="8">8</option>
-			<option value="8">9</option>
-			<option value="10">10</option>
-		</select>
-	</div>
   
 </script>
 
@@ -155,10 +81,8 @@
         
 	</p>
 	<p>
-		The node outputs a payload true/false and other detalis on PIN 1 and a connection ERROR on PIN 2 (true if the node is DISCONNECTED to the server, otherwise false IF IT'S RECONNECTED).
+		The node outputs a payload and other detalis on PIN 1 and a connection ERROR on PIN 2 (true if the node is DISCONNECTED to the server, otherwise false IF IT'S RECONNECTED).
 	</p>
-	<p>
-		For input, see the help link in the config window.
-	</p>
+	
 	
 </script>
