@@ -57,24 +57,24 @@ Everytime a SIA message arrives, the node decodes it and outputs it to the flow.
 
 **SERVER CONFIGURATION**
 
-* Name: choose the name you want. This is the node name.
-* Listen to port: choose a free port. This port must be the same you set into the SIA configuration of your alarm panel
-* SIA Account: choose what you want, for example 000
-* SIA Password: optional, you can choose a password to decrypt the messages (Default, leave blank)
-* Crypted: optional, AES decryption enabled/disabled (Default "No")
-* Password in HEX format: optional, select "yes" if the password you choose in your SIA configuration of your alarm panel is in HEX format (Default "No")
-* SIA message must be no older than (in secs): discard messages older than, for example, 20 seconds. This avoid processing old unwanted events (Default 0, that means that nothing will be discarded)
-* Emit error if no messages arrive within seconds: if a message is not received during this interval (in seconds), the node will emit an error on PIN 2. This is useful for monitoring the connection to your alarm panel (Default 120 seconds)
+* **Name:** choose the name you want. This is the node name.
+* **Listen to port**: choose a free port. This port must be the same you set into the SIA configuration of your alarm panel
+* **SIA Account**: choose what you want, for example 000
+* **SIA Password**: optional, you can choose a password to decrypt the messages (Default, leave blank)
+* **Crypted**: optional, AES decryption enabled/disabled (Default "No")
+* **Password in HEX format**: optional, select "yes" if the password you choose in your SIA configuration of your alarm panel is in HEX format (Default "No")
+* **SIA message must be no older than (in secs)**: discard messages older than, for example, 20 seconds. This avoid processing old unwanted events (Default 0, that means that nothing will be discarded)
+* **Emit error if no messages arrive within seconds**: if a message is not received during this interval (in seconds), the node will emit an error on PIN 2. This is useful for monitoring the connection to your alarm panel (Default 120 seconds)
 
 <br/>
 
 **NODE CONFIGURATION**
 
-* Server: choose the server from the list, or add a new one
-* Name: choose the name you want. This is the node name.
-* Node Topic: this is the node topic. Choose what you want
-* FILTERS
-    * Discard test messages: your alarm panel can send an automatic test message once a time, to check that the SIA-DCS node is connected. You can avoid the node sending a msg to the flow everytime this automatuc test message is received. The node will still emit an ERROR message on the PIN 2, if it doesn't receive any message during the period specified in *Emit error if no messages arrive within seconds* parameter.
+* **Server**: choose the server from the list, or add a new one
+* **Name**: choose the name you want. This is the node name.
+* **Node Topic**: this is the node topic. Choose what you want
+* **FILTERS**
+    * **Discard test messages**: your alarm panel can send an automatic test message once a time, to check that the SIA-DCS node is connected. You can avoid the node sending a msg to the flow everytime this automatuc test message is received. The node will still emit an ERROR message on the PIN 2, if it doesn't receive any message during the period specified in *Emit error if no messages arrive within seconds* parameter.
 
 <br/>
 <br/>
