@@ -81,7 +81,7 @@ In this example, the node retrieves all messages from the SIA client. You'll see
 * **Password in HEX format**: optional, select "yes" if the password you choose in your SIA configuration of your alarm panel is in HEX format (Default "No")
 * **SIA message must be no older than (in secs)**: discard messages older than, for example, 20 seconds. This avoid processing old unwanted events (Default 0, that means that nothing will be discarded)
 * **Emit error if no messages arrive within seconds**: if a message is not received during this interval (in seconds), the node will emit an error on PIN 2. This is useful for monitoring the connection to your alarm panel (Default 120 seconds)
-* **Device List**: You can import your own list of device names and device ids. The node will emit the device name based on device ID in the SIA message. For example:
+* **SIA-DC09 Device List**: You can import your own list of device names and device ids. The node will emit the device name based on device ID in the SIA message. Currently compatible only with ***SIA-DC09***. For example:
     - 0000,Alarm Panel
     - 1,PIR Bedrom
     - 2,Microwave Front Door
