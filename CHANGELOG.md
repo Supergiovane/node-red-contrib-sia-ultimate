@@ -8,6 +8,10 @@
 <br/>
 
 <p>
+<b>Version 1.0.0</b> - September 2021<br/>
+- Stable release.<br/>
+</p>
+<p>
 <b>Version 0.0.4 BETA</b> - September 2021<br/>
 - You can now add a list of your device names, based on device ID.<br/>
 </p>
