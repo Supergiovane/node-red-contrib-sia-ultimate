@@ -8,6 +8,10 @@
 <br/>
 
 <p>
+<b>Version 1.0.1</b> - December 2021<br/>
+- Added some try..catch.<br/>
+</p>
+<p>
 <b>Version 1.0.0</b> - September 2021<br/>
 - Stable release.<br/>
 </p>

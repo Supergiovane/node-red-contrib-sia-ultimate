@@ -251,13 +251,15 @@ module.exports = (RED) => {
             let lenbuf = new Buffer.from(lenhex);
             let buf = new Buffer.from(str);
             let nack = Buffer.concat([start, crcbuf, lenbuf, buf, end]);
+            try {
+                RED.log.debug("siaendpointConfig: nackSIA : " + JSON.stringify(nack));
+            } catch (error) { }
 
-            RED.log.debug("siaendpointConfig: nackSIA : " + JSON.stringify(nack));
             return nack;
         }
 
         /**
-         * Craete Acknowledge for SIA
+         * Create Acknowledge for SIA
          * @param {string} sia - SIA Message
          */
         function ackSIA(sia) {
@@ -265,8 +267,10 @@ module.exports = (RED) => {
                 let ts = getTimestamp(); // tiemstamp
                 let cfg = getAcctInfo(sia.act);
                 let str = "";
-                RED.log.debug("siaendpointConfig: ackSIA (cfg) : " + JSON.stringify(cfg));
-                RED.log.debug("siaendpointConfig: ackSIA (sia) : " + JSON.stringify(sia));
+                try {
+                    RED.log.debug("siaendpointConfig: ackSIA (cfg) : " + JSON.stringify(cfg));
+                    RED.log.debug("siaendpointConfig: ackSIA (sia) : " + JSON.stringify(sia));
+                } catch (error) { }
                 if (sia.crc == sia.calc_crc && sia.len == sia.calc_len && cfg && isInTime(sia.ts)) {
                     // if (sia.crc == sia.calc_crc && sia.len == sia.calc_len && cfg) {
                     let rpref = sia.rpref && sia.rpref.length > 0 ? "R" + sia.rpref : "";
@@ -311,8 +315,9 @@ module.exports = (RED) => {
                     let lenbuf = new Buffer.from(lenhex);
                     let buf = new Buffer.from(str);
                     let ack = Buffer.concat([start, crcbuf, lenbuf, buf, end]);
-
-                    RED.log.debug("siaendpointConfig: ackSIA : " + JSON.stringify(ack));
+                    try {
+                        RED.log.debug("siaendpointConfig: ackSIA : " + JSON.stringify(ack));
+                    } catch (error) { }
                     return ack;
                 }
             }
@@ -615,10 +620,14 @@ module.exports = (RED) => {
                     ack = nackSIA(crcformat);
                 }
                 try {
-                    RED.log.info('siaendpointConfig: sending to ' + remoteAddress + ' following message: ' + ack.toString().trim());
                     sock.end(ack);
+                    RED.log.info('siaendpointConfig: sending ACK to ' + remoteAddress + ' following message: ' + ack.toString().trim());
                 } catch (e) {
                     // Error Message 
+                    try {
+                        RED.log.error('siaendpointConfig: sending ACK to ' + remoteAddress + ' following message: ' + ack.toString().trim() + " Error:" + e.message);
+                    } catch (error) { }
+
                 }
             });
             sock.on('close', () => {
