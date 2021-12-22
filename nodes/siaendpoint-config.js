@@ -394,7 +394,7 @@ module.exports = (RED) => {
         }
 
         /**
-         * start socket server for listining for SIA
+         * start socket server for listening for SIA
          */
         function serverStartTCP() {
             servertcp = net.createServer(onClientConnectedTCP);
@@ -598,8 +598,8 @@ module.exports = (RED) => {
             sock.on('data', (data) => {
                 // data = Buffer.from(data,'binary');
                 // data = new Buffer(data);
-                RED.log.debug('siaendpointConfig: received from ' + remoteAddress + ' following data: ' + JSON.stringify(data));
-                RED.log.debug('siaendpointConfig: received from ' + remoteAddress + ' following message: ' + data.toString().trim());
+                RED.log.debug('siaendpointConfig: TCP received from ' + remoteAddress + ' following data: ' + JSON.stringify(data));
+                RED.log.debug('siaendpointConfig: TCP received from ' + remoteAddress + ' following message: ' + data.toString().trim());
                 let sia = parseSIA(data);
                 if (sia) {
                     ack = ackSIA(sia);
@@ -621,20 +621,20 @@ module.exports = (RED) => {
                 }
                 try {
                     sock.end(ack);
-                    RED.log.info('siaendpointConfig: sending ACK to ' + remoteAddress + ' following message: ' + ack.toString().trim());
+                    RED.log.info('siaendpointConfig: sending ACK VIA TCP to ' + remoteAddress + ' following message: ' + ack.toString().trim());
                 } catch (e) {
                     // Error Message 
                     try {
-                        RED.log.error('siaendpointConfig: sending ACK to ' + remoteAddress + ' following message: ' + ack.toString().trim() + " Error:" + e.message);
+                        RED.log.error('siaendpointConfig: sending ACK VIA TCP to ' + remoteAddress + ' following message: ' + ack.toString().trim() + " Error:" + e.message);
                     } catch (error) { }
 
                 }
             });
             sock.on('close', () => {
-                RED.log.info('siaendpointConfig: connection from ' + remoteAddress + ' closed');
+                RED.log.info('siaendpointConfig: TCP connection from ' + remoteAddress + ' closed');
             });
             sock.on('error', (err) => {
-                RED.log.error('siaendpointConfig: Connection ' + remoteAddress + ' error: ' + err.message);
+                RED.log.error('siaendpointConfig: TCP Connection ' + remoteAddress + ' error: ' + err.message);
             });
         }
 
@@ -642,7 +642,8 @@ module.exports = (RED) => {
          * alarm system connected and sending SIA message (UDP)
          * @param {socket} sock - socket
          */
-        function onClientConnectedUDP(sock) {
+        function 
+        onClientConnectedUDP(sock) {
             // See https://nodejs.org/api/stream.html#stream_readable_setencoding_encoding
             // sock.setEncoding(null);
             // Hack that must be added to make this work as expected
@@ -652,8 +653,8 @@ module.exports = (RED) => {
             sock.on('message', (data, remote) => {
                 // data = Buffer.from(data,'binary');
                 // data = new Buffer(data);
-                RED.log.debug('siaendpointConfig: received from ' + remote.address + ' following data: ' + JSON.stringify(data));
-                RED.log.info('siaendpointConfig: received from ' + remote.address + ' following message: ' + data.toString().trim());
+                RED.log.debug('siaendpointConfig: UDP received from ' + remote.address + ' following data: ' + JSON.stringify(data));
+                RED.log.info('siaendpointConfig: UDP received from ' + remote.address + ' following message: ' + data.toString().trim());
                 let sia = parseSIA(data);
                 if (sia) {
                     ack = ackSIA(sia);
@@ -675,12 +676,12 @@ module.exports = (RED) => {
                     ack = nackSIA(crcformat);
                 }
                 try {
-                    RED.log.info('siaendpointConfig: sending to ' + remote.address + ' following message: ' + ack.toString().trim());
+                    RED.log.info('siaendpointConfig: sending ACK via UDP to ' + remote.address + ' following message: ' + ack.toString().trim());
                     sock.send(ack, 0, ack.length, remote.port, remote.address, (err, bytes) => {
                     });
                 } catch (e) {
                     // Error Message
-                    RED.log.error('siaendpointConfig: Error');
+                    RED.log.error('siaendpointConfig: UDP Error sending ACK ' + e.message);
                 }
             });
             sock.on('close', () => {
