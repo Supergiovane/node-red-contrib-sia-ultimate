@@ -620,7 +620,12 @@ module.exports = (RED) => {
                     ack = nackSIA(crcformat);
                 }
                 try {
-                    sock.end(ack);
+                    //sock.end(ack);
+                    // 23/12/2021 Fix for issue https://github.com/Supergiovane/node-red-contrib-sia-ultimate/issues/2
+                    sock.write(ack);
+                    setTimeout(() => {
+                        sock.end();
+                    }, 700);
                     RED.log.info('siaendpointConfig: sending ACK VIA TCP to ' + remoteAddress + ' following message: ' + ack.toString().trim());
                 } catch (e) {
                     // Error Message 
