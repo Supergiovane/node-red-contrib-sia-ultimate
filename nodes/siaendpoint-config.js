@@ -397,23 +397,35 @@ module.exports = (RED) => {
          * start socket server for listening for SIA
          */
         function serverStartTCP() {
-            servertcp = net.createServer(onClientConnectedTCP);
-            servertcp.listen(node.port, () => {
-                let text = 'siaendpointConfig: SIA Server listening on IP-Adress (TCP): ' + servertcp.address().address + ':' + servertcp.address().port;
-                RED.log.info(text);
-            });
+            try {
+                servertcp = net.createServer(onClientConnectedTCP);
+                servertcp.listen(node.port, () => {
+                    let text = 'siaendpointConfig: SIA Server listening on IP-Adress (TCP): ' + servertcp.address().address + ':' + servertcp.address().port;
+                    RED.log.info(text);
+                });
+            } catch (error) {
+                RED.log.error("siaendpointConfig: Unable to instantiate the TCP server: " + error.message);
+                throw (error);
+            }
+
         }
 
         /**
          * start socket server for listining for SIA by UDP
          */
         function serverStartUDP() {
-            serverudp = dgram.createSocket('udp4');
-            onClientConnectedUDP(serverudp);
-            serverudp.bind(node.port, () => {
-                let text = 'siaendpointConfig: SIA Server listening on IP-Adress (UDP): ' + serverudp.address().address + ':' + serverudp.address().port;
-                RED.log.info(text);
-            });
+            try {
+                serverudp = dgram.createSocket('udp4');
+                onClientConnectedUDP(serverudp);
+                serverudp.bind(node.port, () => {
+                    let text = 'siaendpointConfig: SIA Server listening on IP-Adress (UDP): ' + serverudp.address().address + ':' + serverudp.address().port;
+                    RED.log.info(text);
+                });
+            } catch (error) {
+                RED.log.error("siaendpointConfig: Unable to instantiate the UDP server: " + error.message);
+                throw (error);
+            }
+
         }
 
 
@@ -647,8 +659,8 @@ module.exports = (RED) => {
          * alarm system connected and sending SIA message (UDP)
          * @param {socket} sock - socket
          */
-        function 
-        onClientConnectedUDP(sock) {
+        function
+            onClientConnectedUDP(sock) {
             // See https://nodejs.org/api/stream.html#stream_readable_setencoding_encoding
             // sock.setEncoding(null);
             // Hack that must be added to make this work as expected
@@ -757,11 +769,6 @@ module.exports = (RED) => {
         }
 
 
-        // start socket server
-        serverStartTCP();
-        serverStartUDP();
-        startHeartBeat();
-
         // Start the heartbeat timer
         function startHeartBeat() {
             if (node.timerHeartBeat !== null) clearTimeout(node.timerHeartBeat);
@@ -809,6 +816,21 @@ module.exports = (RED) => {
             }
         };
         //#endregion
+
+        // start socket server
+        setTimeout(() => {
+            try {
+                serverStartTCP();
+                serverStartUDP();
+            } catch (error) {
+                node.setAllClientsStatus({ fill: "red", shape: "dot", text: "Error instantiating server " + error.message });
+                return;
+            }
+
+            startHeartBeat();
+
+        }, 5000);
+
     }
 
 

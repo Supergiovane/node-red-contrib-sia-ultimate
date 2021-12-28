@@ -8,6 +8,10 @@
 <br/>
 
 <p>
+<b>Version 1.0.3</b> - December 2021<br/>
+- FIX: a possible crash if the TCP/UDP port are already in use.<br/>
+</p>
+<p>
 <b>Version 1.0.2</b> - December 2021<br/>
 - FIX: fixed an issue with Ajax Hub 2. In some circumstances, the ACK wasn't read by Ajax due to the too speedy disconnection after senind the ACK telegram.<br/>
 </p>
