@@ -8,6 +8,10 @@
 <br/>
 
 <p>
+<b>Version 1.0.5</b> - December 2021<br/>
+- FIX: fix a possible crash if you have more than 1 server node with the same port.<br/>
+</p>
+<p>
 <b>Version 1.0.4</b> - December 2021<br/>
 - FIX: a possible crash if the TCP/UDP port are already in use.<br/>
 </p>

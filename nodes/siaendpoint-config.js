@@ -398,18 +398,19 @@ module.exports = (RED) => {
          */
         function serverStartTCP() {
             try {
-                servertcp = net.createServer(onClientConnectedTCP);
+                servertcp = net.createServer(onClientConnectedTCP(servertcp));
                 servertcp.listen(node.port, () => {
                     try {
                         let text = 'siaendpointConfig: SIA Server listening on IP-Adress (TCP): ' + servertcp.address().address || "" + ':' + servertcp.address().port;
-                        RED.log.info(text);    
+                        RED.log.info(text);
                     } catch (error) {
-                        RED.log.error("siaendpointConfig: Unable to listen to the TCP server: " + error.message);
+                        RED.log.error("siaendpointConfig: Unable to listen to the TCP server: " + error.message + " do you have another config node with the same port?");
+                        throw (error);
                     }
-                    
+
                 });
             } catch (error) {
-                RED.log.error("siaendpointConfig: Unable to instantiate the TCP server: " + error.message);
+                RED.log.error("siaendpointConfig: Unable to instantiate the TCP server: " + error.message + " do you have another config node with the same port?");
                 throw (error);
             }
 
@@ -425,9 +426,10 @@ module.exports = (RED) => {
                 serverudp.bind(node.port, () => {
                     try {
                         let text = 'siaendpointConfig: SIA Server listening on IP-Adress (UDP): ' + serverudp.address().address + ':' + serverudp.address().port;
-                        RED.log.info(text);                            
+                        RED.log.info(text);
                     } catch (error) {
                         RED.log.error("siaendpointConfig: Unable to listen to the UDP server: " + error.message);
+                        throw (error);
                     }
                 });
             } catch (error) {
@@ -668,8 +670,7 @@ module.exports = (RED) => {
          * alarm system connected and sending SIA message (UDP)
          * @param {socket} sock - socket
          */
-        function
-            onClientConnectedUDP(sock) {
+        function onClientConnectedUDP(sock) {
             // See https://nodejs.org/api/stream.html#stream_readable_setencoding_encoding
             // sock.setEncoding(null);
             // Hack that must be added to make this work as expected
