@@ -400,8 +400,13 @@ module.exports = (RED) => {
             try {
                 servertcp = net.createServer(onClientConnectedTCP);
                 servertcp.listen(node.port, () => {
-                    let text = 'siaendpointConfig: SIA Server listening on IP-Adress (TCP): ' + servertcp.address().address + ':' + servertcp.address().port;
-                    RED.log.info(text);
+                    try {
+                        let text = 'siaendpointConfig: SIA Server listening on IP-Adress (TCP): ' + servertcp.address().address || "" + ':' + servertcp.address().port;
+                        RED.log.info(text);    
+                    } catch (error) {
+                        RED.log.error("siaendpointConfig: Unable to listen to the TCP server: " + error.message);
+                    }
+                    
                 });
             } catch (error) {
                 RED.log.error("siaendpointConfig: Unable to instantiate the TCP server: " + error.message);
@@ -418,8 +423,12 @@ module.exports = (RED) => {
                 serverudp = dgram.createSocket('udp4');
                 onClientConnectedUDP(serverudp);
                 serverudp.bind(node.port, () => {
-                    let text = 'siaendpointConfig: SIA Server listening on IP-Adress (UDP): ' + serverudp.address().address + ':' + serverudp.address().port;
-                    RED.log.info(text);
+                    try {
+                        let text = 'siaendpointConfig: SIA Server listening on IP-Adress (UDP): ' + serverudp.address().address + ':' + serverudp.address().port;
+                        RED.log.info(text);                            
+                    } catch (error) {
+                        RED.log.error("siaendpointConfig: Unable to listen to the UDP server: " + error.message);
+                    }
                 });
             } catch (error) {
                 RED.log.error("siaendpointConfig: Unable to instantiate the UDP server: " + error.message);

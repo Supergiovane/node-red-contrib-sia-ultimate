@@ -8,7 +8,7 @@
 <br/>
 
 <p>
-<b>Version 1.0.3</b> - December 2021<br/>
+<b>Version 1.0.4</b> - December 2021<br/>
 - FIX: a possible crash if the TCP/UDP port are already in use.<br/>
 </p>
 <p>
