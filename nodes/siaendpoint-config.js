@@ -398,10 +398,61 @@ module.exports = (RED) => {
          */
         function serverStartTCP() {
             try {
-                servertcp = net.createServer(onClientConnectedTCP(servertcp));
+                servertcp = net.createServer(function (sock) {
+                    let ack = null;
+                    // RED.log.info('siaendpointConfig: New client connected: ' + remoteAddress);
+                    var remoteAddress = sock.address().address + ':' + sock.address().port;
+                    sock.on('data', (data) => {                        
+                        // data = Buffer.from(data,'binary');
+                        // data = new Buffer(data);
+                        RED.log.debug('siaendpointConfig: TCP received from ' + remoteAddress + ' following data: ' + JSON.stringify(data));
+                        RED.log.debug('siaendpointConfig: TCP received from ' + remoteAddress + ' following message: ' + data.toString().trim());
+                        let sia = parseSIA(data);
+                        if (sia) {
+                            ack = ackSIA(sia);
+                            if (ack) {
+                                // set states only if ACK okay
+                                setStatesSIA(sia);
+                                node.nodeClients.forEach(oClient => {
+                                    oClient.sendPayload({ connection: "TCP", decoded: sia });
+                                })
+                                node.errorDescription = ""; // Reset the error
+                                startHeartBeat();
+                            } else {
+                                let crcformat = getcrcFormat(data);
+                                ack = nackSIA(crcformat);
+                            }
+                        } else {
+                            let crcformat = getcrcFormat(data);
+                            ack = nackSIA(crcformat);
+                        }
+                        try {
+                            //sock.end(ack);
+                            // 23/12/2021 Fix for issue https://github.com/Supergiovane/node-red-contrib-sia-ultimate/issues/2
+                            sock.write(ack);
+                            setTimeout(() => {
+                                sock.end();
+                            }, 700);
+                            RED.log.info('siaendpointConfig: sending ACK VIA TCP to ' + remoteAddress + ' following message: ' + ack.toString().trim());
+                        } catch (e) {
+                            // Error Message 
+                            try {
+                                RED.log.error('siaendpointConfig: sending ACK VIA TCP to ' + remoteAddress + ' following message: ' + ack.toString().trim() + " Error:" + e.message);
+                            } catch (error) { }
+
+                        }
+                    });
+                    sock.on('close', () => {
+                        RED.log.info('siaendpointConfig: TCP connection from ' + remoteAddress + ' closed');
+                    });
+                    sock.on('error', (err) => {
+                        RED.log.error('siaendpointConfig: TCP Connection ' + remoteAddress + ' error: ' + err.message);
+                    });
+                });
+
                 servertcp.listen(node.port, () => {
                     try {
-                        let text = 'siaendpointConfig: SIA Server listening on IP-Adress (TCP): ' + servertcp.address().address || "" + ':' + servertcp.address().port;
+                        let text = 'siaendpointConfig: SIA Server listening on IP-Adress (TCP): ' + servertcp.address().address + ':' + servertcp.address().port;
                         RED.log.info(text);
                     } catch (error) {
                         RED.log.error("siaendpointConfig: Unable to listen to the TCP server: " + error.message + " do you have another config node with the same port?");
@@ -615,10 +666,10 @@ module.exports = (RED) => {
             // sock.setEncoding(null);
             // Hack that must be added to make this work as expected
             // delete sock._readableState.decoder;
-            let remoteAddress = sock.remoteAddress + ':' + sock.remotePort;
             let ack = null;
             // RED.log.info('siaendpointConfig: New client connected: ' + remoteAddress);
             sock.on('data', (data) => {
+                var remoteAddress = sock.address().address + ':' + sock.address().port;
                 // data = Buffer.from(data,'binary');
                 // data = new Buffer(data);
                 RED.log.debug('siaendpointConfig: TCP received from ' + remoteAddress + ' following data: ' + JSON.stringify(data));
@@ -831,12 +882,15 @@ module.exports = (RED) => {
         setTimeout(() => {
             try {
                 serverStartTCP();
+            } catch (error) {
+                node.setAllClientsStatus({ fill: "red", shape: "dot", text: "Error instantiating server TCP " + error.message });
+            }
+            try {
                 serverStartUDP();
             } catch (error) {
-                node.setAllClientsStatus({ fill: "red", shape: "dot", text: "Error instantiating server " + error.message });
-                return;
+                node.setAllClientsStatus({ fill: "red", shape: "dot", text: "Error instantiating server UDP " + error.message });
             }
-
+           
             startHeartBeat();
 
         }, 5000);
