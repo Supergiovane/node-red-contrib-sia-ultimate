@@ -8,6 +8,10 @@
 <br/>
 
 <p>
+<b>Version 1.0.7</b> - October 2023<br/>
+- Updated help panel. Now you can read the help direclty in the Node-Red help tab.<br/>
+</p>
+<p>
 <b>Version 1.0.6</b> - January 2022<br/>
 - FIX: fixed an issue preventing the TCP server to start.<br/>
 </p>
