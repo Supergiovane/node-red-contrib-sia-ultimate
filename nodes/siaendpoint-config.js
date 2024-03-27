@@ -480,6 +480,16 @@ module.exports = (RED) => {
             try {
                 serverudp = dgram.createSocket('udp4');
                 onClientConnectedUDP(serverudp);
+
+                // 27 /03 / 2024 handle connection error
+                serverudp.on('error', function (e) {
+                    RED.log.error('siaendpointConfig: UDP Connection: servertcp.on(error)  error: ' + e);
+                    // node.nodeClients.forEach(oClient => {
+                    //     oClient.sendPayload({ errorDescription: e });
+                    // })
+                });
+
+
                 serverudp.bind(node.port, () => {
                     try {
                         let text = 'siaendpointConfig: SIA Server listening on IP-Adress (UDP): ' + serverudp.address().address + ':' + serverudp.address().port;

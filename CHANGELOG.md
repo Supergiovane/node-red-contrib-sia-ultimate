@@ -8,7 +8,7 @@
 <br/>
 
 <p>
-<b>Version 1.0.8</b> - April 2023<br/>
+<b>Version 1.0.9</b> - April 2023<br/>
 - FIX: fixed a crash when you select a server port already used by another service.<br/>
 </p>
 <p>
