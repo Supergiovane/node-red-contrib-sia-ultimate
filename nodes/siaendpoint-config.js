@@ -402,7 +402,7 @@ module.exports = (RED) => {
                     let ack = null;
                     // RED.log.info('siaendpointConfig: New client connected: ' + remoteAddress);
                     var remoteAddress = sock.address().address + ':' + sock.address().port;
-                    sock.on('data', (data) => {                        
+                    sock.on('data', (data) => {
                         // data = Buffer.from(data,'binary');
                         // data = new Buffer(data);
                         RED.log.debug('siaendpointConfig: TCP received from ' + remoteAddress + ' following data: ' + JSON.stringify(data));
@@ -450,19 +450,25 @@ module.exports = (RED) => {
                     });
                 });
 
+                // 27 /03 / 2024 handle connection error
+                servertcp.on('error', function (e) {
+                    RED.log.error('siaendpointConfig: TCP Connection: servertcp.on(error)  error: ' + e);
+                    // node.nodeClients.forEach(oClient => {
+                    //     oClient.sendPayload({ errorDescription: e });
+                    // })
+                });
+
                 servertcp.listen(node.port, () => {
                     try {
                         let text = 'siaendpointConfig: SIA Server listening on IP-Adress (TCP): ' + servertcp.address().address + ':' + servertcp.address().port;
                         RED.log.info(text);
                     } catch (error) {
                         RED.log.error("siaendpointConfig: Unable to listen to the TCP server: " + error.message + " do you have another config node with the same port?");
-                        throw (error);
                     }
 
                 });
             } catch (error) {
                 RED.log.error("siaendpointConfig: Unable to instantiate the TCP server: " + error.message + " do you have another config node with the same port?");
-                throw (error);
             }
 
         }
@@ -890,7 +896,7 @@ module.exports = (RED) => {
             } catch (error) {
                 node.setAllClientsStatus({ fill: "red", shape: "dot", text: "Error instantiating server UDP " + error.message });
             }
-           
+
             startHeartBeat();
 
         }, 5000);

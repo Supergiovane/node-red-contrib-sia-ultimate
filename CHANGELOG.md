@@ -8,6 +8,10 @@
 <br/>
 
 <p>
+<b>Version 1.0.8</b> - April 2023<br/>
+- FIX: fixed a crash when you select a server port already used by another service.<br/>
+</p>
+<p>
 <b>Version 1.0.7</b> - October 2023<br/>
 - Updated help panel. Now you can read the help direclty in the Node-Red help tab.<br/>
 </p>
