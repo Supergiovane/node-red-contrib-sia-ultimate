@@ -8,6 +8,10 @@
 <br/>
 
 <p>
+<b>Version 1.0.10</b> - Mai 2024<br/>
+- FIX: changed the connection error log's severity, from "error" to "debug" in node-red, to avoid IPv6 net error clogging the log.<br/>
+</p>
+<p>
 <b>Version 1.0.9</b> - April 2024<br/>
 - FIX: fixed a crash when you select a server port already used by another service.<br/>
 </p>

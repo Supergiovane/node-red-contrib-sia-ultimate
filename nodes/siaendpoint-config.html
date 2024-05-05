@@ -66,7 +66,7 @@
     </div>
    
     <div class="form-row">
-        <label for="node-config-input-aes"><i class="fa fa-tasks"></i> Crypted</label>
+        <label for="node-config-input-aes"><i class="fa fa-tasks"></i> Encrypted</label>
 		<select id="node-config-input-aes">
 			<option value="yes">Yes</option>
 			<option value="no">No</option>		
@@ -87,7 +87,7 @@
     </div>
     <div class="form-row">
         <label for="node-config-input-acktimeout" >
-            <i class="fa fa-tag"></i> SIA message must be no older than (in secs)
+            <i class="fa fa-tag"></i> SIA message must be not older than (in secs)
         </label>
         <input type="text" id="node-config-input-acktimeout" placeholder="0 for no control">
       
@@ -124,11 +124,11 @@ This node connects to your SIA alarm panel.
 |--|--|
 | Name | Choose the name you want. This is the node name. |
 | Listen to port |  Choose a free port. This port must be the same you set into the SIA configuration of your alarm panel. |
-| SIA Account |  Choose what you want, for example 000 |
-| SIA Password |  Optional, you can choose a password to decrypt the messages (Default, leave blank). This work if you select *Crypted* 'yes' below. |
-| Crypted |  Optional, AES decryption enabled/disabled (Default "No"). |
+| SIA Account | Choose what you want, for example 000. IT MUST BE a numeric value. |
+| SIA Password |  Optional, you can choose a password to decrypt the messages (Default, leave blank). This work if you select *Encrypted* 'yes' below. |
+| Encrypted |  Optional, AES decryption enabled/disabled (Default "No"). |
 | Password in HEX format | Optional, select "yes" if the password you choose in your SIA configuration of your alarm panel is in HEX format (Default "No"). |
-| SIA message must be no older than (in secs) |  Discard messages older than, for example, 20 seconds. This avoid processing old unwanted events (Default 0, that means that nothing will be discarded). |
+| SIA message must be not older than (in secs) |  Discard messages older than, for example, 20 seconds. This avoid processing old unwanted events (Default 0, that means that nothing will be discarded). |
 | Emit error if no messages arrive within seconds | If a message is not received during this interval (in seconds), the node will emit an error on PIN 2. This is useful for monitoring the connection to your alarm panel (Default 120 seconds). |
 | SIA-DC09 Device List |  You can import your own list of device names and device ids. The node will emit the device name based on device ID in the SIA message. Currently compatible only with  **SIA-DC09**. |
 

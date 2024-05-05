@@ -429,10 +429,13 @@ module.exports = (RED) => {
                         try {
                             //sock.end(ack);
                             // 23/12/2021 Fix for issue https://github.com/Supergiovane/node-red-contrib-sia-ultimate/issues/2
-                            sock.write(ack);
-                            setTimeout(() => {
-                                sock.end();
-                            }, 700);
+                            sock.write(ack, function (err) {
+                                setTimeout(() => {
+                                    sock.end();
+                                }, 700);
+                            });
+                            //sock.write(ack);
+
                             RED.log.info('siaendpointConfig: sending ACK VIA TCP to ' + remoteAddress + ' following message: ' + ack.toString().trim());
                         } catch (e) {
                             // Error Message 
@@ -446,7 +449,7 @@ module.exports = (RED) => {
                         RED.log.info('siaendpointConfig: TCP connection from ' + remoteAddress + ' closed');
                     });
                     sock.on('error', (err) => {
-                        RED.log.error('siaendpointConfig: TCP Connection ' + remoteAddress + ' error: ' + err.message);
+                        RED.log.debug('siaendpointConfig: TCP Connection Socket error ' + remoteAddress + ' error: ' + err.stack);
                     });
                 });
 
@@ -712,10 +715,11 @@ module.exports = (RED) => {
                 try {
                     //sock.end(ack);
                     // 23/12/2021 Fix for issue https://github.com/Supergiovane/node-red-contrib-sia-ultimate/issues/2
-                    sock.write(ack);
-                    setTimeout(() => {
-                        sock.end();
-                    }, 700);
+                    sock.write(ack, function (err) {
+                        setTimeout(() => {
+                            sock.end();
+                        }, 700);
+                    });
                     RED.log.info('siaendpointConfig: sending ACK VIA TCP to ' + remoteAddress + ' following message: ' + ack.toString().trim());
                 } catch (e) {
                     // Error Message 
@@ -729,7 +733,7 @@ module.exports = (RED) => {
                 RED.log.info('siaendpointConfig: TCP connection from ' + remoteAddress + ' closed');
             });
             sock.on('error', (err) => {
-                RED.log.error('siaendpointConfig: TCP Connection ' + remoteAddress + ' error: ' + err.message);
+                RED.log.error('siaendpointConfig: TCP Socket error' + remoteAddress + ' error: ' + err.stack);
             });
         }
 
