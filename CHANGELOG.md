@@ -8,6 +8,11 @@
 <br/>
 
 <p>
+<b>Version 1.0.11</b> - February 2026<br/>
+- NEW: added TCP connection handling options (like ioBroker): you can choose if the SIA server closes the TCP connection after ACK, or if it must wait the panel to close it.<br/>
+- NEW: added configurable close delay after ACK (ms) and panel close timeout (sec).<br/>
+</p>
+<p>
 <b>Version 1.0.10</b> - Mai 2024<br/>
 - FIX: changed the connection error log's severity, from "error" to "debug" in node-red, to avoid IPv6 net error clogging the log.<br/>
 </p>

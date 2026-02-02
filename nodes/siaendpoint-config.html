@@ -8,6 +8,9 @@
             acktimeout: { value: 0 },
             hex: { value: "no" },
             aes: { value: "no" },
+            closeByServer: { value: true },
+            closeDelayMs: { value: 700, required: true, validate: RED.validators.number() },
+            panelCloseTimeoutSec: { value: 30, required: true, validate: RED.validators.number() },
             heartbeatTimeout: { value: 120, required: true, validate: RED.validators.number() },
             deviceList: { value: "", required: false }
         },
@@ -17,6 +20,15 @@
         },
         oneditprepare: function () {
             let node = this;
+            function toggleCloseOptions() {
+                if ($("#node-config-input-closeByServer").is(":checked")) {
+                    $("#row-closeDelayMs").show();
+                    $("#row-panelCloseTimeoutSec").hide();
+                } else {
+                    $("#row-closeDelayMs").hide();
+                    $("#row-panelCloseTimeoutSec").show();
+                }
+            }
             if (node.aes === "yes") {
                 // Show input
                 $("#divPassword").show();
@@ -32,6 +44,9 @@
                     $("#divPassword").hide()
                 }
             });
+
+            toggleCloseOptions();
+            $("#node-config-input-closeByServer").on('change', toggleCloseOptions);
 
         },
         oneditsave: function () {
@@ -92,6 +107,21 @@
         <input type="text" id="node-config-input-acktimeout" placeholder="0 for no control">
       
     </div>
+
+    <div class="form-row">
+        <label for="node-config-input-closeByServer"><i class="fa fa-plug"></i> Connection close by SIA Server</label>
+        <input type="checkbox" id="node-config-input-closeByServer" style="width:auto">
+    </div>
+
+    <div class="form-row" id="row-closeDelayMs">
+        <label for="node-config-input-closeDelayMs"><i class="fa fa-clock-o"></i> Close delay after ACK (ms)</label>
+        <input type="text" id="node-config-input-closeDelayMs" placeholder="700">
+    </div>
+
+    <div class="form-row" id="row-panelCloseTimeoutSec">
+        <label for="node-config-input-panelCloseTimeoutSec"><i class="fa fa-clock-o"></i> Wait panel close timeout (sec)</label>
+        <input type="text" id="node-config-input-panelCloseTimeoutSec" placeholder="30">
+    </div>
    
     <div class="form-row">
         <label for="node-config-input-heartbeatTimeout"><i class="fa fa-tasks"></i> Emit error if no messages arrive within seconds</label>
@@ -129,6 +159,9 @@ This node connects to your SIA alarm panel.
 | Encrypted |  Optional, AES decryption enabled/disabled (Default "No"). |
 | Password in HEX format | Optional, select "yes" if the password you choose in your SIA configuration of your alarm panel is in HEX format (Default "No"). |
 | SIA message must be not older than (in secs) |  Discard messages older than, for example, 20 seconds. This avoid processing old unwanted events (Default 0, that means that nothing will be discarded). |
+| Connection close by SIA Server | If enabled, the node closes the TCP connection after sending the ACK (Default enabled). If disabled, the node waits for the panel to close the connection. |
+| Close delay after ACK (ms) | Delay before closing the TCP connection after sending the ACK (only if *Connection close by SIA Server* is enabled). |
+| Wait panel close timeout (sec) | Max time to wait for the panel to close the TCP connection (only if *Connection close by SIA Server* is disabled). After this, the node will close the socket. |
 | Emit error if no messages arrive within seconds | If a message is not received during this interval (in seconds), the node will emit an error on PIN 2. This is useful for monitoring the connection to your alarm panel (Default 120 seconds). |
 | SIA-DC09 Device List |  You can import your own list of device names and device ids. The node will emit the device name based on device ID in the SIA message. Currently compatible only with  **SIA-DC09**. |
 
