@@ -620,6 +620,10 @@ module.exports = (RED) => {
                 sia.cr = data[len]; // <cr>
                 // str = new Buffer((data.subarray(7, len)));
 
+                if (str == null) {
+                    RED.log.info("siaendpointConfig: Could not detect CRC format (neither hex nor binary)");
+                    return undefined;
+                }
                 sia.str = str.toString();
                 sia.calc_len = str.length;
                 sia.calc_crc = crc16str(str);
