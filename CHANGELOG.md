@@ -8,6 +8,11 @@
 <br/>
 
 <p>
+<b>Version 1.0.12</b> - February 2026<br/>
+- FIX: crash on CRC control in some circumstances. Thanks @clausbroch<br/>
+</p>
+
+<p>
 <b>Version 1.0.11</b> - February 2026<br/>
 - NEW: added TCP connection handling options (like ioBroker): you can choose if the SIA server closes the TCP connection after ACK, or if it must wait the panel to close it.<br/>
 - NEW: added configurable close delay after ACK (ms) and panel close timeout (sec).<br/>
