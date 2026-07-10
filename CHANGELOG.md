@@ -8,6 +8,11 @@
 <br/>
 
 <p>
+<b>Version 1.0.13</b> - July 2026<br/>
+- DOCS: new Max Supervibe README banner and app-icon logo.<br/>
+</p>
+
+<p>
 <b>Version 1.0.12</b> - February 2026<br/>
 - FIX: crash on CRC control in some circumstances. Thanks @clausbroch<br/>
 </p>
