@@ -12,12 +12,19 @@
     },
     "keywords": [
         "node-red",
+        "node-red-contrib",
         "sia",
+        "sia-dcs",
         "alarm",
+        "alarm-system",
         "dcs",
         "dc09",
         "ajax",
-        "burglar"
+        "burglar",
+        "intrusion",
+        "security",
+        "iot",
+        "home-automation"
     ],
     "engines": {
         "node": ">=12.3.0"
