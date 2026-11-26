@@ -2,6 +2,7 @@
 module.exports = (RED) => {
 
     const dp = require('./lib/datapoints');
+    const { createSiaCerebrumIntegration } = require('./lib/sia-cerebrum.js');
     const net = require('net');
     const dgram = require('dgram');
     const crypto = require('crypto');
@@ -135,6 +136,7 @@ module.exports = (RED) => {
                     if (ack) {
                         // set states only if ACK okay
                         setStatesSIA(sia);
+                        try { if (node.cerebrumIntegration) node.cerebrumIntegration.handleMessage(sia); } catch (error) { /* Cerebrum must never break SIA */ }
                         node.nodeClients.forEach(oClient => {
                             oClient.sendPayload({ connection: "TCP", decoded: sia });
                         })
@@ -747,6 +749,7 @@ module.exports = (RED) => {
                     if (ack) {
                         // set states only if ACK okay
                         setStatesSIA(sia);
+                        try { if (node.cerebrumIntegration) node.cerebrumIntegration.handleMessage(sia); } catch (error) { /* Cerebrum must never break SIA */ }
                         node.nodeClients.forEach(oClient => {
                             oClient.sendPayload({ connection: "UDP", decoded: sia });
                         })
@@ -843,6 +846,7 @@ module.exports = (RED) => {
             if (node.timerHeartBeat !== null) clearTimeout(node.timerHeartBeat);
             node.timerHeartBeat = setTimeout(() => {
                 node.errorDescription = "Timeout waiting for a message withing " + node.heartbeatTimeout + " seconds.";
+                try { if (node.cerebrumIntegration) node.cerebrumIntegration.handleHeartbeatTimeout(node.errorDescription); } catch (error) { /* ignore */ }
                 node.nodeClients.forEach(oClient => {
                     oClient.sendPayload({ errorDescription: node.errorDescription });
                 })
@@ -851,7 +855,13 @@ module.exports = (RED) => {
         }
 
         //#region "FUNCTIONS"
+        // Read-only publication of the received events to Cerebrum Ultimate (optional).
+        node.cerebrumIntegration = null;
+        try { node.cerebrumIntegration = createSiaCerebrumIntegration({ configNode: node }); } catch (error) { node.cerebrumIntegration = null; }
+
         node.on('close', function (removed, done) {
+            try { if (node.cerebrumIntegration) node.cerebrumIntegration.dispose(); } catch (error) { /* ignore */ }
+            node.cerebrumIntegration = null;
             try {
                 if (servertcp !== null) servertcp.close();
                 if (serverudp !== null) serverudp.close();

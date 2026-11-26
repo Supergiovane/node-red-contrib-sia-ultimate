@@ -8,6 +8,11 @@
 <br/>
 
 <p>
+<b>Unreleased</b><br/>
+- NEW: Cerebrum Ultimate integration. The receiver publishes the link with the panel, the arming state reported by the panel and the last SIA event of every zone to Cerebrum Ultimate, read-only, when Cerebrum is installed in the same Node-RED; every event is also delivered as an event. MCP clients can read them through the Cerebrum MCP server. See the <a href="https://www.maxsupervibe.com/docs/cerebrum-ultimate/">Cerebrum Ultimate documentation</a>.<br/>
+</p>
+
+<p>
 <b>Version 1.0.13</b> - July 2026<br/>
 - DOCS: new Max Supervibe README banner and app-icon logo.<br/>
 </p>

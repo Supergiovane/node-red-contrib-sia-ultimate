@@ -172,3 +172,7 @@ This is a partial porting/revisiting from iobroker.sia by schmupu. They did a ve
 [npm-downloads-total-image]: https://img.shields.io/npm/dt/node-red-contrib-sia-ultimate.svg
 [facebook-image]: https://img.shields.io/badge/Visit%20me-Facebook-blue
 [facebook-url]: https://www.facebook.com/supergiovaneDev
+
+## Cerebrum Ultimate
+
+When **Cerebrum Ultimate** is installed in the same Node-RED, every SIA receiver configuration is published to it automatically, read-only: the link with the panel, the arming state reported by the panel (from the opening/closing codes) and the last SIA event of every zone; every received event is also delivered as an event, so repeated alarms are never collapsed. Cerebrum can use them in chat, in its history and as triggers of JavaScript routines, and MCP clients such as Claude can read them through the Cerebrum MCP server. Nothing has to be configured, and nothing can be switched or changed from Cerebrum through this link. Without Cerebrum nothing changes. See the [Cerebrum Ultimate documentation](https://www.maxsupervibe.com/docs/cerebrum-ultimate/).
