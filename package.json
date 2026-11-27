@@ -2,7 +2,11 @@
     "name": "node-red-contrib-sia-ultimate",
     "version": "1.0.13",
     "description": "Connect your SIA-DCS compatible alarm system to node-red. It works with Ajax System too.",
-    "author": "Supergiovane (https://github.com/Supergiovane)",
+    "author": {
+        "name": "Massimo Saccani",
+        "email": "maxsupergiovane@icloud.com",
+        "url": "https://youtube.com/@maxsupervibe"
+    },
     "dependencies": {
         "xml2js": "0.4.23",
         "node-fetch": "2.6.1",
